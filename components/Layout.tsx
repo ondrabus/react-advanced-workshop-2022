@@ -7,8 +7,22 @@ interface IProps {
     children: React.ReactNode
 }
 
+const localeToString = (locale: string): string => {
+    switch (locale){
+        case "cs-CZ":
+            return "čeština"
+        case "en-US":
+            return "english"
+        case "de-AT":
+            return "deutsch"
+    }
+
+}
+
 const Layout: React.FC<IProps> = ({ children }) => {
     const [showMenu, setShowMenu] = useState(false)
+
+    const { locales, locale, asPath } = useRouter()
 
     return (<>
         <div className="h-24 z-50 relative container mx-auto px-6 grid grid-cols-3">
@@ -33,6 +47,11 @@ const Layout: React.FC<IProps> = ({ children }) => {
                         <Link href="/contact">
                             <a className="inline-block border-b-4 border-transparent hover:border-yellow-900">Contact</a>
                         </Link>
+
+                        {locales.filter(l => l !== locale).map(l => <Link href={asPath} locale={l} key={l}><a>{localeToString(l)}</a></Link>)}
+
+
+
                     </div>
                     <div className="absolute inset-0 w-full h-full bg-yellow-900 bg-opacity-20"></div>
                 </div>}

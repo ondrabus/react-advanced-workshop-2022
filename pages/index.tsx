@@ -1,24 +1,39 @@
 import Link from "next/link"
 import React from "react"
 import Layout from '../components/Layout'
+import Image from "next/image"
+import { Homepage } from "../models/content-types"
+import { GetStaticProps } from "next"
+import KontentService from "../services/KontentService"
+import { RichTextElement } from "@kontent-ai/react-components"
+import { contentTypes } from "../models/project"
+import CTA from "../components/CTA"
+import { ComponentCTA } from "../models/content-types/_component__cta"
+import ConferenceComponent from "../components/Conference"
+import { ComponentConference } from "../models/content-types/_component__conference"
+import { ComponentLargeImage } from "../models/content-types/_component__large_image"
+import ThreeConferences from "../components/ThreeConferences"
+import { ComponentThreeConferences } from "../models/content-types/_component__three_conferences"
+import LargeImage from "../components/LargeImage"
 
-// interface IProps {
-//   data: Homepage,
-// }
+interface IProps {
+  data: Homepage,
+}
 
-// export const getStaticProps: GetStaticProps<IProps> = async ({ params, preview }) => {
-// 	const data = await KontentService.Instance(preview).deliveryClient
-//         .item<Homepage>('homepage')
-//         .toPromise()
+export const getStaticProps: GetStaticProps<IProps> = async ({ params, preview, locale }) => {
+	const data = await KontentService.Instance(preview).deliveryClient
+        .item<Homepage>('homepage')
+        .languageParameter(locale)
+        .toPromise()
 
-// 	return {
-// 		props: {
-//       data: data.data.item
-// 		},
-// 	}
-// }
+	return {
+		props: {
+      data: data.data.item
+		},
+	}
+}
 
-const Home: React.FC = () => {
+const Home: React.FC<IProps> = ({ data }) => {
   return (
     <Layout>
       <div className="-mt-24 relative w-full py-12 px-12 bg-yellow-900">
@@ -37,6 +52,24 @@ const Home: React.FC = () => {
           className="w-full h-full absolute inset-0 object-cover opacity-70"
           alt="" />
       </div>
+
+      <RichTextElement
+        richTextElement={data.elements.text}
+        resolvers={{
+          resolveLinkedItem: (linkedItem, { domElement, domToReact}) => {
+            switch(linkedItem.system.type){
+              case contentTypes._component__cta.codename:
+                return <CTA {...linkedItem as ComponentCTA} />
+              case contentTypes._component__conference.codename:
+                return <ConferenceComponent {...linkedItem as ComponentConference} />
+              case contentTypes._component__large_image.codename:
+                return <LargeImage {...linkedItem as ComponentLargeImage} />
+              case contentTypes._component__three_conferences.codename:
+                return <ThreeConferences {...linkedItem as ComponentThreeConferences} />
+            }
+          }
+        }}
+        />
 
     </Layout>
   )

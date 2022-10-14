@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-models": "cd models && kontent-generate --projectId=5faadba4-74cb-0112-28d6-1af374974337 --apiKey=ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogImM3MjFjOGY5NThmZDRhY2E4MDU3YWNhZTE0Nzk5NDc3IiwNCiAgImlhdCI6ICIxNjY1Njk2OTk5IiwNCiAgImV4cCI6ICIyMDExMjk2OTk5IiwNCiAgInZlciI6ICIyLjEuMCIsDQogICJ1aWQiOiAidXNyXzB2Uk1RaGtmaEgwQTVhelU3NTNRUHoiLA0KICAicHJvamVjdF9pZCI6ICI1ZmFhZGJhNDc0Y2IwMTEyMjhkNjFhZjM3NDk3NDMzNyIsDQogICJhdWQiOiAibWFuYWdlLmtlbnRpY29jbG91ZC5jb20iDQp9.OO3DKHZisztszuekeIFRKdvSfmXooGEs37CyFrpHfiA"
   },
   "dependencies": {
     "@kontent-ai/delivery-sdk": "^12.3.0",
+    "@kontent-ai/react-components": "^0.1.1",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
