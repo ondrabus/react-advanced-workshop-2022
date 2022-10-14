@@ -1,0 +1,6 @@
+Repository: https://github.com/ondrabus/react-advanced-2022-workshop
+Content package for import: here in root -> content.zip
+Kontent.ai registration: https://app.kontent.ai/sign-up 
+Kontent.ai Template Manager: https://kentico.github.io/kontent-template-manager/
+Kontent.ai Model Generator JS: https://github.com/kontent-ai/model-generator-js
+Kontent.ai React Components: https://github.com/kontent-ai/react-components

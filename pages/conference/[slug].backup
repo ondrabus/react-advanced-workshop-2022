@@ -1,0 +1,35 @@
+import React from "react"
+import { GetStaticPaths, GetStaticProps } from "next"
+import KontentService from "../../services/KontentService"
+import { RichTextElement } from "@kontent-ai/react-components"
+import Layout from "../../components/Layout"
+
+export const getStaticPaths: GetStaticPaths = async () => {
+}
+
+export const getStaticProps: GetStaticProps = async ({ params, preview }) => {
+}
+
+const ConfPage: React.FC = (data) => {
+
+    return (
+    <Layout>
+        <div className="relative h-96">
+            <img
+                src={conference.elements.venue_photo.value[0].url}
+                className="w-full h-full object-cover"
+                alt={conference.elements.name.value} />
+        </div>
+
+        <div className="max-w-4xl mx-auto bg-white py-12 px-12 lg:px-24 -mt-32 relative z-10">
+            <h2 className="mt-4 uppercase tracking-widest text-xs text-gray-600">{conference.elements.address.value}</h2>
+            <h1 className="font-display text-2xl md:text-3xl text-gray-900 mt-4">{conference.elements.name.value}</h1>
+
+            <div className="prose prose-sm sm:prose lg:prose-lg mt-6">
+                <RichTextElement richTextElement={conference.elements.description} />
+            </div>  
+        </div>
+    </Layout>
+)}
+
+export default ConfPage

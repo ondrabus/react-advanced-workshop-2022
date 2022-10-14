@@ -1,0 +1,56 @@
+import React from "react"
+import { GetStaticProps } from "next"
+import KontentService from "../../services/KontentService"
+import Layout from "../../components/Layout"
+import Link from "next/link"
+import { getUrlByContentType } from "../../utils/urlUtils"
+
+interface IProps {
+    conferences: Conference[],
+}
+
+export const getStaticProps: GetStaticProps<IProps> = async ({ params, preview }) => {
+	const data = await KontentService.Instance(preview).deliveryClient
+        .items<Conference>()
+		.type(contentTypes.conference.codename)
+        .orderByDescending(`elements.${contentTypes.conference.elements.start_date.codename}`)
+		.toPromise()
+
+	return {
+		props: {
+            conferences: data.data.items
+		},
+	}
+}
+
+const ConfList: React.FC<IProps> = (data) => {
+    return (<Layout>
+        <div className="text-center py-12 px-6 mt-12">
+            <h1 className="font-display font-bold text-5xl mb-6">Conferences</h1>
+            <p className="max-w-lg mx-auto">Visit us at one of these conferences this fall</p>
+        </div>
+
+        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 pb-24">
+            {data.conferences.map(conf => 
+                <div key={conf.system.id}>
+                    <Link href={getUrlByContentType(contentTypes.conference.codename, conf.elements.url_slug.value)}>
+                        <a><img alt={conf.elements.name.value} src={conf.elements.venue_photo.value[0].url} className="w-full h-52 md:h-64 lg:h-96 xl:h-64 object-cover" /></a>
+                    </Link>
+
+                    <div className="bg-gray-50 p-8">
+                        <div className="text-xs text-gray-600 uppercase font-semibold">{new Date(conf.elements.start_date.value).toDateString()}</div>
+                        <h2 className="mt-3 text-3xl mb-6 font-display text-black leading-tight max-w-sm">{conf.elements.name.value}</h2>
+                        <Link href={getUrlByContentType(contentTypes.conference.codename, conf.elements.url_slug.value)}>
+                            <a className="flex items-center mt-6 uppercase text-sm text-black font-semibold">
+                                See more
+                                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            )}
+        </div>
+    </Layout>
+)}
+
+export default ConfList
